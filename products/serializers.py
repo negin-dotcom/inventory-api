@@ -10,6 +10,13 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    def validate_stock(self, value):
+        if value < 0:
+            raise serializers.ValidationError(
+                "Stock cannot be negative."
+            )
+        return value
+
     class Meta:
         model = Product 
         fields = ["id", "name", "description", "price", 

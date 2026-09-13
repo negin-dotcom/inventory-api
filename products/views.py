@@ -1,3 +1,4 @@
+from django.db.models import ProtectedError
 from django.shortcuts import get_object_or_404
 
 from rest_framework.views import APIView
@@ -119,7 +120,14 @@ class ProductDetailView(APIView):
     def delete(self, request, pk):
         product = get_object_or_404(Product, pk=pk)
 
-        product.delete()
+        try:
+            product.delete()
+
+        except ProtectedError:
+            return Response(
+                {"detail": "Cannot delete a product that is used in an order."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
         return Response(
             status=status.HTTP_204_NO_CONTENT
