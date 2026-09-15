@@ -33,3 +33,5 @@ A RESTful API for managing products, categories, orders, and order items, built 
 git clone https://github.com/negin-dotcom/inventory-api.git 
 
 cd inventory-api
+
+CI branch protection test
